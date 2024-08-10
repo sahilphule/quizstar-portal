@@ -20,9 +20,9 @@ phases:
     - docker push $DOCKER_USERNAME/$IMAGE_NAME1:$IMAGE_TAG
     - docker push $DOCKER_USERNAME/$IMAGE_NAME2:$IMAGE_TAG
 
-artifacts:
-  files:
-  - '**/*'
-  base-directory: base_location
-  name: quizstar-build-artifact
-  discard-paths: no
+# artifacts:
+#   files:
+#   - '**/*'
+#   base-directory: base_location
+#   name: quizstar-build-artifact
+#   discard-paths: no
