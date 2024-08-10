@@ -1,8 +1,8 @@
-version: "3.8"
 services:
   mysql:
     image: mysql
     container_name: mysql-service
+    restart: always
     volumes:
     - ./django-app/data:/var/lib/mysql
     env_file:
@@ -15,6 +15,7 @@ services:
     #   dockerfile: dockerfile
     container_name: django-app-service
     command: ['/bin/sh','./entrypoint.sh']
+    restart: always
     volumes:
     - ./django-app:/django-app
     env_file:
@@ -30,6 +31,7 @@ services:
     #   context: ./nginx
     #   dockerfile: dockerfile
     container_name: nginx-service
+    restart: always
     volumes:
     - ./django-app:/django-app
     ports:
@@ -40,11 +42,13 @@ services:
   # redis:
   #   image: redis
   #   container_name: redis-service
+  #   restart: always
 
   # celery:
   #   image: sahilphule0710/django-app
   #   container_name: celery-service
   #   command: celery -A core worker -l INFO
+  #   restart: always
   #   volumes:
   #   - ./django-app:/django-app
   #   depends_on:
@@ -55,6 +59,7 @@ services:
   #   image: sahilphule0710/django-app
   #   container_name: celery-beat-service
   #   command: celery -A core beat -l info
+  #   restart: always
   #   volumes:
   #   - ./django-app:/django-app
   #   depends_on:

@@ -35,13 +35,14 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost','http://127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
-    'portal',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'portal',
+    # 'storages',
 ]
 
 MIDDLEWARE = [
@@ -157,3 +158,25 @@ TINYMCE_DEFAULT_CONFIG = {
     'plugins': 'textcolor lists link',
     'toolbar': 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link',
 }
+
+
+# # AWS S3 Configuration
+# AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# AWS_S3_FILE_OVERWRITE = False
+
+
+# # Storage
+# STORAGES = {
+#     #Media files
+#     "default": {
+#         "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
+#     },
+
+#     #Static files
+#     "staticfiles": {
+#         "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
+#     },
+# }
