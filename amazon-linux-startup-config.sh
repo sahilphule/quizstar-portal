@@ -7,7 +7,7 @@ sudo systemctl enable docker
 sudo usermod -a -G docker $(whoami)
 newgrp docker
 docker -v
-docker login
+# docker login
 
 sudo yum update -y
 sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
