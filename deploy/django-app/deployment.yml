@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: django-app-deployment
-  namespace: quizstar
+  namespace: quizstar-portal
   labels:
     deployment: django-app
 spec:

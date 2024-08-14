@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: worker-deployment
-  namespace: quizstar
+  namespace: quizstar-portal
   labels:
     deployment: celery-worker
 spec:

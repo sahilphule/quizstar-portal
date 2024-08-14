@@ -1,6 +1,6 @@
 #!bin/sh
-cd /home/ec2-user/quizstar
-docker-compose down;
+cd /home/ec2-user/quizstar-portal
+docker-compose -f docker-compose.yaml down;
 docker rmi sahilphule0710/django-app
 # docker rmi nginx
 # docker rmi mysql

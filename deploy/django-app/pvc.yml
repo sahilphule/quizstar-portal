@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: django-app-pvc
-  namespace: quizstar
+  namespace: quizstar-portal
 spec:
   storageClassName: manual
   accessModes:

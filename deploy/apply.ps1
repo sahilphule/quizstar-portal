@@ -21,4 +21,6 @@ kubectl apply -f django-app/service.yaml
 kubectl apply -f nginx/deployment.yaml
 kubectl apply -f nginx/service.yaml
 
-kubectl get all -n quizstar
+kubectl get all -n quizstar-portal
+
+docker cp ./nginx.conf nginx-service:/etc/nginx/conf.d/nginx.conf

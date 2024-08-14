@@ -1,4 +1,4 @@
-docker-compose down
+docker-compose -f docker-compose.yaml down
 docker rmi sahilphule0710/django-app
 # docker rmi nginx
 # docker rmi mysql
