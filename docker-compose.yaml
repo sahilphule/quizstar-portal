@@ -9,10 +9,10 @@ services:
     - ./.env
 
   django-app:
-    image: sahilphule0710/django-app
-    # build:
-    #   context: ./django-app
-    #   dockerfile: dockerfile
+    image: django-app
+    build:
+      context: ./django-app
+      dockerfile: dockerfile
     container_name: django-app-service
     command: ['/bin/sh','./entrypoint.sh']
     restart: always
@@ -20,16 +20,11 @@ services:
     - ./django-app:/django-app
     env_file:
     - ./.env
-    ports:
-    - 8000:8000
     depends_on:
     - mysql
 
   nginx:
-    image: sahilphule0710/django-app-nginx
-    # build: 
-    #   context: ./nginx
-    #   dockerfile: dockerfile
+    image: nginx
     container_name: nginx-service
     restart: always
     volumes:
