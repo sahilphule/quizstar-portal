@@ -1,5 +1,6 @@
 configmap.yaml
 *secret.yaml
 .env
+data
 __pycache__
 celerybeat-schedule

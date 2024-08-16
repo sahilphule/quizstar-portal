@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: django-app-ingress
-  namespace: quizstar
+  namespace: quizstar-portal
 spec:
   rules:
     - host: quizstar.com

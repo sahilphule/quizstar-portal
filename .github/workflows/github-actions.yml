@@ -24,10 +24,3 @@ jobs:
         context: ./django-app
         push: true
         tags: sahilphule0710/django-app
-
-    - name: Build and push django-app-nginx image
-      uses: docker/build-push-action@v5
-      with:
-        context: ./nginx
-        push: true
-        tags: sahilphule0710/django-app-nginx

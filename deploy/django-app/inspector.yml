@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: pvc-inspector
-  namespace: quizstar
+  namespace: quizstar-portal
 spec:
   containers:
   - image: busybox
