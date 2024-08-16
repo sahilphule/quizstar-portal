@@ -9,10 +9,10 @@ services:
     - ./.env
 
   django-app:
-    image: django-app
-    build:
-      context: ./django-app
-      dockerfile: dockerfile
+    image: sahilphule0710/django-app
+    # build:
+    #   context: ./django-app
+    #   dockerfile: dockerfile
     container_name: django-app-service
     command: ['/bin/sh','./entrypoint.sh']
     restart: always
