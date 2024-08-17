@@ -1,0 +1,22 @@
+{
+  "name": "dockerized-test-portal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samarth4445/dockerized-test-portal.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samarth4445/dockerized-test-portal/issues"
+  },
+  "homepage": "https://github.com/samarth4445/dockerized-test-portal#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

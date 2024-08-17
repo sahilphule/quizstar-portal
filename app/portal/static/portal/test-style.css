@@ -1,0 +1,245 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: #0f2830;
+  background-color: #f1f5f8;
+  font-family: "Inter";
+}
+
+.parent {
+  width: 100%;
+  margin-top: 60px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.question-div {
+  background-color: #fff;
+  width: 1000px;
+  padding: 25px;
+  /* height: 400px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  /* margin: 0 0; */
+  margin-left: 30px;
+  margin-bottom: 60px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  flex-wrap: wrap;
+  overflow-wrap: break-word;
+}
+
+.question-div [type="radio"] {
+  width: 25px;
+  height: 25px;
+}
+
+
+.op-div{
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
+  overflow-wrap: break-word;
+}
+
+.op-div div{
+  display: inline-block;
+  text-wrap: break-word;
+}
+
+.op-div .op-div-under{
+  max-width: 200px;
+  word-wrap: break-word;
+}
+
+
+.pallette-div {
+  background-color: #fff;
+  /* width: 500px; */
+  /* height: 500px; */
+  justify-self: flex-start;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-radius: 8px;
+  margin-left: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+  max-height: 400px;
+  transition: all 0.1s;
+}
+
+.pallette-div button {
+  /* color: rgb(8, 129, 210); */
+  text-decoration: none;
+  display: block;
+  margin: 0 auto;
+  margin-top: 15px;
+  transition: all 0.1s;
+}
+
+.pallette-div button:hover {
+  border-color: #ff4857;
+  color: #ff4857;
+}
+
+/* 
+.pallette-div a:hover {
+  text-decoration: underline;
+}
+
+.pallette-div a:visited {
+  color: rgb(8, 129, 210);
+} */
+
+.column-pallette {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 10px;
+  /* width: 300px; */
+  margin-top: 10px;
+}
+.individual-question {
+  border-style: solid;
+  border-color: rgba(80, 93, 107, 0.3);
+  border-width: 2px;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 5px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s;
+}
+.individual-question:hover {
+  border-color: #fe914c;
+  color: #fe914c;
+}
+
+.not-answered {
+  background-color: #ff4857;
+  color: #fff;
+  border: none;
+  transition: all 0.1s;
+}
+
+.not-answered:hover {
+  background-color: #e6414e;
+  border-style: none;
+  color: #fff;
+}
+
+.not-answered:active {
+  background-color: #cc3a46;
+}
+
+.answered {
+  background-color: #7bd669;
+  color: #fff;
+  border: none;
+  transition: all 0.1s;
+}
+.answered:hover {
+  background-color: #71cb5f;
+  color: #fff;
+  border: none;
+}
+
+.answered:active {
+  background-color: #65b555;
+  color: #fff;
+  border: none;
+  transition: all 0.1s;
+}
+
+.question-number {
+  margin-top: 10px;
+  margin-bottom: 35px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.question-text {
+  margin-bottom: 30px;
+  text-wrap: wrap;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+  margin-left: 15px;
+}
+
+.navigation-button {
+  display: flex;
+  gap: 10px;
+}
+
+.saveandnext {
+  padding: 12px;
+  border-radius: 6px;
+  color: #0f2830;
+  background-color: #fff;
+  border-style: solid;
+  border-color: rgba(80, 93, 107, 0.3);
+  border-radius: 5px;
+  font-size: 16px;
+  /* border-width: 0.5px; */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.03);
+  margin-top: 25px;
+  transition: all 0.1s;
+}
+
+.saveandnext:disabled {
+  color: rgba(80, 93, 107, 0.3);
+}
+
+.saveandnext:hover {
+  border-color: #fe914c;
+  color: #fe914c;
+}
+
+
+.nav-div {
+  background-color: #fff;
+  padding: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-content p {
+  /* color: #ff4857; */
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 1000px;
+  margin: 0 30px;
+}
+
+nav img {
+  height: 30px;
+  align-self: center;
+}

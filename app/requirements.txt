@@ -1,0 +1,14 @@
+asgiref
+django
+django-storages
+boto3
+gunicorn
+sqlparse
+tzdata
+mysqlclient
+redis
+celery
+pytz
+pandas
+openpyxl
+django-tinymce

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvc-inspector
+  namespace: quizstar-portal
+spec:
+  containers:
+  - image: busybox
+    name: pvc-inspector
+    command: ["tail"]
+    args: ["-f", "/dev/null"]
+    volumeMounts:
+    - name: app-volume-mount
+      mountPath: /app
+  volumes:
+  - name: app-volume-mount
+    persistentVolumeClaim:
+      claimName: app-pvc

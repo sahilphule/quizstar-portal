@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Sokalp - Admin Panel{% endblock title %}
+
+{% block styles %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+<style>
+  .spinner-wrapper {
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index:9999;
+    display: flex;
+    justify-content: center;
+  }
+
+  .spinner-border {
+    height: 60px;
+    width: 60px;
+    margin-top: 30vh;
+  }
+
+</style>
+
+{% endblock styles %}
+
+{% block content %}
+
+  <div class="spinner-wrapper" style='display: none'>
+    <div class="spinner-border text-primary" role='status'>
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+  <center>
+    <h1>Admin Panel</h1>
+
+    <table class='table'>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Number of questions</th>
+          <th>Change Time</th>
+          <th>User Info</th>
+          <th>Edit Tests</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for test in tests %}
+            <tr>
+              <td>{{ test.id }}</td>
+              <td>{{ test.test_name }}</td>
+              <td>{{ test.test_question_no }}</td>
+              <td>
+                <input type="time" step="1" name="time-test" class='time-test' data-mydata="{{test.id}}" value='{{ test.id|time }}'>
+              </td>
+              <td>
+                <a class='btn btn-primary' href='{% url "user-details" test.id %}'>See User Info</a>
+              </td>
+              <td>
+                <a class='btn btn-primary' href='{% url "edit-test" test.id %}'>Edit Test</a>
+              </td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% if is_form_valid %}
+      <p 
+      style='font-size: 12px;
+      font-weight: 600;
+      color: #ff4857;'
+      >
+        Please enter valid test name!
+    </p>
+  {% endif %}
+    
+    <button class='btn btn-success mb-3' data-bs-toggle="modal" data-bs-target="#reg-modal">Create Test</button> <br>
+    <a href='{% url "logout" %}' class='btn btn-danger'>Logout</a>
+  </center>
+
+  <script src='{% static "portal/admin.js" %}'></script>
+
+  <div class="modal fade" id="reg-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-title">Create a Test</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post">
+          {% csrf_token %}
+          <div class="modal-body">
+              <label for="modal-email" class="form-label">Test Name</label>
+              {{form.test_name}}
+              <label for="modal-email" class="form-label">Instructions for Test</label>
+              {{form.instruction}}
+            {% comment %}
+            <input type="text" class="form-control" id="modal-email" name='test-name' placeholder="e.g. DSA Example Test"> {% endcomment %}
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+  {% endblock content %}

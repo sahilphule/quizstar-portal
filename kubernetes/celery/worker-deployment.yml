@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-deployment
+  namespace: quizstar-portal
+  labels:
+    deployment: celery-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: celery-worker
+  template:
+    metadata:
+      labels:
+        pod: celery-worker
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: celery-worker-container
+        image: sahilphule0710/app
+        imagePullPolicy: Never
+        command: ['celery', '-A', 'core', 'worker', '-l', 'INFO']
+        envFrom:
+        - configMapRef:
+            name: app-configmap
+        - secretRef:
+            name: app-secret
+        volumeMounts:
+        - name: app-volume-mount
+          mountPath: /app
+      volumes:
+      - name: app-volume-mount
+        persistentVolumeClaim:
+          claimName: app-pvc

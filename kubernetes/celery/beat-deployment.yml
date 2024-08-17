@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: beat-deployment
+  namespace: quizstar-portal
+  labels:
+    deployment: celery-beat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: celery-beat
+  template:
+    metadata:
+      labels:
+        pod: celery-beat
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: celery-beat-container
+        image: sahilphule0710/app
+        imagePullPolicy: Never
+        command: ['celery', '-A', 'core', 'beat', '-l', 'DEBUG']
+        envFrom:
+        - configMapRef:
+            name: app-configmap
+        - secretRef:
+            name: app-secret
+        volumeMounts:
+        - name: app-mount-volume
+          mountPath: /app
+      volumes:
+      - name: app-mount-volume
+        persistentVolumeClaim:
+          claimName: app-pvc

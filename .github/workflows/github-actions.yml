@@ -21,6 +21,6 @@ jobs:
     - name: Build and push the django-app image
       uses: docker/build-push-action@v5
       with:
-        context: ./django-app
+        context: ./app
         push: true
-        tags: sahilphule0710/django-app
+        tags: sahilphule0710/app

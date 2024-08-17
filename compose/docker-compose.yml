@@ -1,0 +1,63 @@
+services:
+  # mysql:
+  #   image: mysql
+  #   container_name: mysql-service
+  #   restart: always
+  #   volumes:
+  #   - ../app/data:/var/lib/mysql
+  #   env_file:
+  #   - ./.env
+
+  app:
+    image: sahilphule0710/app
+    # build:
+    #   context: ../app
+    #   dockerfile: dockerfile
+    container_name: app-service
+    command: ['/bin/sh','./entrypoint.sh']
+    restart: always
+    volumes:
+    - ../app:/app
+    env_file:
+    - ./.env
+    ports:
+    - 8000:8000
+    # depends_on:
+    # - mysql
+
+  nginx:
+    image: nginx
+    container_name: nginx-service
+    restart: always
+    volumes:
+    - ../app:/app
+    ports:
+    - 80:80
+    depends_on:
+    - app
+
+  # redis:
+  #   image: redis
+  #   container_name: redis-service
+  #   restart: always
+
+  # celery:
+  #   image: sahilphule0710/app
+  #   container_name: celery-service
+  #   command: celery -A core worker -l INFO
+  #   restart: always
+  #   volumes:
+  #   - ../app:/app
+  #   depends_on:
+  #   - app
+  #   - redis
+  
+  # celery_beat:
+  #   image: sahilphule0710/app
+  #   container_name: celery-beat-service
+  #   command: celery -A core beat -l info
+  #   restart: always
+  #   volumes:
+  #   - ../app:/app
+  #   depends_on:
+  #   - celery

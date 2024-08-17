@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  namespace: quizstar-portal
+  labels:
+    deployment: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: app
+  template:
+    metadata:
+      labels:
+        pod: app
+    spec:
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: docker-secret
+      containers:
+      - name: app-container
+        image: sahilphule0710/app
+        # imagePullPolicy: Never
+        command: ['/bin/sh','./entrypoint.sh']
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - configMapRef:
+            name: app-configmap
+        - secretRef:
+            name: app-secret
+        volumeMounts:
+        - name: app-volume-mount
+          mountPath: /app
+      volumes:
+      - name: app-volume-mount
+        persistentVolumeClaim:
+          claimName: app-pvc

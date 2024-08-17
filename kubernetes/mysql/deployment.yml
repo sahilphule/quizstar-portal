@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  namespace: quizstar-portal
+  labels:
+    deployment: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: mysql
+  template:
+    metadata:
+      labels:
+        pod: mysql
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: mysql-container
+        image: mysql
+        ports:
+        - containerPort: 3306
+        envFrom:
+        - configMapRef:
+            name: app-configmap
+        - secretRef:
+            name: app-secret
+        volumeMounts:
+        - name: mysql-volume-mount
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-volume-mount
+        persistentVolumeClaim:
+          claimName: mysql-pvc

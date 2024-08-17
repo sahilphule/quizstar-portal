@@ -1,0 +1,131 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: #0f2830;
+  background-color: #f1f5f8;
+  font-family: "Inter", sans-serif;
+}
+
+.parent {
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.container {
+  background-color: #fff;
+  width: 1000px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  flex-wrap: wrap;
+}
+
+.initial-heading {
+  font-size: 13px;
+  letter-spacing: 0.2px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.regards {
+  margin-bottom: 30px;
+}
+
+.btn {
+  padding: 12px;
+  border-radius: 6px;
+  transition: all 0.1s;
+}
+
+.btn:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.12);
+}
+
+.btn:active {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.12);
+}
+
+.btn-start-test {
+  background-color: #fe914c;
+  letter-spacing: 0.8px;
+  border: 0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 550;
+  width: 115px;
+  text-decoration: none;
+  transition: all 0.1s;
+}
+
+.btn-start-test:hover {
+  background-color: #e58344;
+}
+
+.btn-start-test:active {
+  background-color: #cb743d;
+}
+
+.btn-logout {
+  color: #0f2830;
+  background-color: #fff;
+  border-style: solid;
+  border-color: #aeb9c6;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 16px;
+  border-width: 0.5px;
+  text-decoration: none;
+  transition: all 0.1s;
+}
+
+.btn-logout:hover {
+  border-color: #ff4857;
+  color: #ff4857;
+}
+
+.btn-logout:active {
+  border-color: #e6414e;
+  color: #e6414e;
+}
+
+.initial-instructions {
+  line-height: 2;
+  letter-spacing: 0.2px;
+  font-weight: 500;
+  margin-bottom: 120px;
+}
+
+.nav-div {
+  background-color: #fff;
+  padding: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+}
+
+.instruct{
+  margin-bottom: 30px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+nav img {
+  height: 30px;
+  align-self: center;
+}

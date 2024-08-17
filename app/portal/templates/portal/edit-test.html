@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}Sokalp - Edit Test{% endblock title %}
+
+{% block styles %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+{% endblock styles %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+<script>
+
+  const escapeHtml = (unsafe) => {
+    return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+  }
+  
+  function handlePre(question, isCode){
+    document.getElementById('modal-body-pre').innerHTML = escapeHtml(question);
+
+    if(isCode == 'True'){
+      document.getElementById('modal-body-pre').classList.add('prettyprint')
+    }
+    else{
+      document.getElementById('modal-body-pre').classList.remove('prettyprint')
+    }
+    
+    $('#full-modal').modal('show');
+  }
+
+</script>
+{% endblock scripts %}
+
+{% block content %}
+  <a href="{% url 'basic-settings' tests.id %}"><-- Back</a>
+  <center>
+    <h1>{{ tests.test_name }}</h1>
+    <br>
+
+    <table class="table">
+      <thead>
+        <th>Question</th>
+        <th>Option 1</th>
+        <th>Option 2</th>
+        <th>Option 3</th>
+        <th>Option 4</th>
+        <th>Save Changes</th>
+        <th>Delete Question</th>
+      </thead>
+      <tbody>
+        {% for question in questions %}
+          <tr>
+            <td>
+              <pre ondblclick='handlePre(`{{question.question}}`, `{{question.questionIsCode}}`)' {% if question.questionIsCode %} class="prettyprint" style='border-style:none'{% endif %} id='question_{{ question.id }}' >
+                {{ question.question|linebreaks|truncatechars:100 }}
+              </pre>
+            </td>
+
+            <td>
+              <pre {% if question.op1IsCode %} class="prettyprint" style='border-style:none'{% endif %} id='op1_{{ question.id }}' ondblclick='handlePre(`{{question.op1}}`, "{{question.op1IsCode}}")'>
+                {{ question.op1|linebreaks|truncatechars:100 }}
+              </pre>
+            </td>
+
+            <td>
+              <pre {% if question.op2IsCode %} class="prettyprint" style='border-style:none'{% endif %} id='op2_{{ question.id }}' ondblclick='handlePre(`{{question.op2}}`, "{{question.op2IsCode}}")'>
+                {{ question.op2|linebreaks|truncatechars:100 }}
+              </pre>
+            </td>
+
+            <td>
+              <pre {% if question.op3IsCode %} class="prettyprint" style='border-style:none'{% endif %} id='op3_{{ question.id }}' ondblclick='handlePre(`{{question.op3}}`, "{{question.op3IsCode}}")'>
+                  {{ question.op3|linebreaks|truncatechars:100 }}
+              </pre>
+            </td>
+            
+            <td>
+              <pre {% if question.op4IsCode %} class="prettyprint" style='border-style:none'{% endif %} id='op4_{{ question.id }}' ondblclick='handlePre(`{{question.op4}}`, "{{question.op4IsCode}}")'>
+                {{ question.op4|linebreaks|truncatechars:100 }}
+              </pre>
+            </td>
+
+            <td>
+              <button class='btn btn-success'>Save</button>
+            </td>
+
+            <td>
+              <a href='{% url "delete-question" question.id %}' class='btn btn-danger'>Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+    {% if is_form_invalid %}
+      <p 
+      style='font-size: 12px;
+      font-weight: 600;
+      color: #ff4857;'
+      >
+        Correct errors and try again!
+    </p>
+    {% endif %}
+
+    <button class='btn btn-success' data-bs-toggle="modal" data-bs-target="#reg-modal">Add Question</button>
+    <form action="{% url 'upload-questions' tests.id %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <button class='btn btn-success'>Add Questions from Excel</button>
+      <input required type="file" name='questions'>
+    </form>
+  </center>
+
+  <div class="modal fade" id="reg-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-title">Add a Question</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post">
+          {% csrf_token %}
+          <div class="modal-body">
+
+            <div class="form-floating mb-3">
+              {{form.question}}
+              {% comment %} <textarea name='question' class="form-control" placeholder="Enter the Question" id="floatingTextarea"></textarea> {% endcomment %}
+              <label for="floatingTextarea">Question</label>
+            </div>
+
+            <div class="mb-3 ms-4">
+              {{form.questionIsCode}}
+              {% comment %} <input name='checks[]' value='question' type="checkbox" id="floatingInput" placeholder="Enter 0 or 1"> {% endcomment %}
+              <label for="floatingInput">Syntax Highlighting</label>
+            </div>
+
+            <div class="form-floating mb-3">
+              {{form.op1}}
+              {% comment %} <textarea name='op1' class="form-control" placeholder="Enter the Option 1" id="floatingTextarea"></textarea> {% endcomment %}
+              <label for="floatingTextarea">Option 1</label>
+            </div>
+
+            <div class="mb-3 ms-4">    
+              {{form.op1IsCode}}
+              {% comment %} <input name='checks[]' value='op1' type="checkbox" id="op1IsCode" placeholder="Enter 0 or 1"> {% endcomment %}
+              <label for="op1IsCode">Syntax Highlighting</label>
+            </div>
+
+            <div class="form-floating mb-3">
+              {{form.op2}}
+              {% comment %} <textarea name='op2' class="form-control" placeholder="Enter the Option 2" id="floatingTextarea"></textarea> {% endcomment %}
+              <label for="floatingTextarea">Option 2</label>
+            </div>
+
+            <div class="mb-3 ms-4">
+              {{form.op2IsCode}}
+              {% comment %} <input name='checks[]' value='op2' type="checkbox" id="op2IsCode" placeholder="Enter 0 or 1"> {% endcomment %}
+              <label for="op2IsCode">Syntax Highlighting.</label>
+            </div>
+
+            <div class="form-floating mb-3">
+              {{form.op3}}
+              {% comment %} <textarea name='op3' class="form-control" placeholder="Enter the Option 3" id="floatingTextarea"></textarea> {% endcomment %}
+              <label for="floatingTextarea">Option 3</label>
+            </div>
+            
+            <div class="mb-3 ms-4">
+              {{form.op3IsCode}}
+              {% comment %} <input name='checks[]' value='op3' type="checkbox" id="op3IsCode" placeholder="Enter 0 or 1"> {% endcomment %}
+              <label for="op3IsCode">Syntax Highlighting</label>
+            </div>
+
+            <div class="form-floating mb-3">
+              {{form.op4}}
+              {% comment %} <textarea name='op4' class="form-control" placeholder="Enter the Option 4" id="floatingTextarea"></textarea> {% endcomment %}
+              <label for="floatingTextarea">Option 4</label>
+            </div>
+            
+            <div class='mb-3 ms-4'>
+              {{form.op4IsCode}}
+              {% comment %} <input name='checks[]' value='op4' type="checkbox" id="op4IsCode" placeholder="Enter 0 or 1"> {% endcomment %}
+              <label for="op4IsCode">Syntax Highlighting</label>
+            </div>
+
+            <div class="form-floating mb-3">
+              {{form.correct_op}}
+              <label for="floatingInput">Correct Option</label>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="full-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-title">Full View</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+          <div id='modal-body' class="modal-body">
+            <pre style='border-style:none' id='modal-body-pre' class=''></pre>
+          </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

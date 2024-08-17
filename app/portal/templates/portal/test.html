@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ test.test_name }} Test{% endblock title %}
+
+{% block styles %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+  <link rel="stylesheet" href="{% static '/portal/test-style.css' %}">
+  {% csrf_token %}
+{% endblock styles %}
+
+{% block content %}
+<div class="spinner-wrapper" style='display: none'>
+  <div class="spinner-border text-primary" role='status'>
+    <span class="visually-hidden" style='color:white; font-size:18px'>Saving your response...</span>
+  </div>
+</div>
+<style>
+  .spinner-wrapper {
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index:9999;
+    display: flex;
+    justify-content: center;
+  }
+
+  .spinner-border {
+    height: 60px;
+    width: 60px;
+    margin-top: 30vh;
+  }
+
+</style>
+  <nav>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <div class="nav-div">
+      <div class="nav-content">
+        <img src="{% static 'portal/sokalp.png' %}" alt="" />
+        <div id="countdownExample">
+          <div id="timer"></div>
+          <script>
+            const hours = parseInt({{hours}});
+            const minutes = parseInt({{minutes}});
+            const seconds = parseInt({{seconds}});
+
+            console.log(hours)
+            console.log(minutes)
+            console.log(seconds)
+
+            let timeInSeconds = hours*60*60 + minutes*60 + seconds;
+        
+            function updateTimer() {
+                const hours = Math.floor(timeInSeconds / 3600);
+                const minutes = Math.floor((timeInSeconds % 3600) / 60);
+                const seconds = timeInSeconds % 60;
+        
+                document.getElementById('timer').innerHTML = `Time remaining: ${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`;
+        
+                if (timeInSeconds === 0) {
+                    document.getElementById('timer').innerHTML = 'Time is up!';
+                    clearInterval(timerInterval);
+                } else {
+                    timeInSeconds--;
+                }
+            }
+        
+            // Format time to two digits (e.g., 5 => '05')
+            function formatTime(time) {
+                return String(time).padStart(2, '0');
+            }
+        
+            // Update the timer every second
+            const timerInterval = setInterval(updateTimer, 1000);
+        
+          </script>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="parent">
+    <div class="pallette-div">
+      <div id="column-pallette" class="column-pallette">
+        {% for i in nums %}
+          <div class='individual-question' onclick='handlePaletteClick(this.id)' id='{{ i.question_id }}'>{{ i.i }}</div>
+        {% endfor %}
+      </div>
+      <button class="saveandnext" onclick="finishTest()">Finish Test</button>
+    </div>
+    <div class="question-div">
+      <p class="question-number">
+        Question <span id="question-number">1</span> / {{ question_len }}
+      </p>
+      <p id="question-para" class="question-text">
+        Question Text
+      </p>
+
+      <div class='op-div'>
+        <input type="radio" name="answer" value="op1" id="op1-r" />
+        <label id='op1' for="op1-r">
+          <div class='op-div-under'>
+            Option 1
+          </div>
+        </label>
+      </div>
+
+      <div class="op-div">
+        <input type="radio" name="answer" value="op2" id="op2-r" />
+        <label id='op2' for="op2-r">Option 2</label>
+      </div>
+      
+      <div class='op-div'>
+        <input type="radio" name="answer" value="op3" id="op3-r" />
+        <label id='op3' for="op3-r">Option 3</label>
+      </div>
+
+      <div class='op-div'>
+        <input type="radio" name="answer" value="op4" id="op4-r" />
+        <label id='op4' for="op4-r">Option 4</label>
+      </div>
+
+      <script>
+        const number_of_questions = {{ question_len }}
+        const savedAnswers = JSON.parse("{{saved_answers|escapejs}}"); 
+        let currQuestionID = {{ first_qid }};
+      </script>
+
+      <script src='{% static "portal/test.js" %}'></script>
+
+      <div class="navigation-button">
+        <button name="saveandnext" id="saveandnext" class="saveandnext" onclick="handleSaveAndNext()">Save and Next</button>
+        <button name="saveandnext" id="next" class="saveandnext" onclick="handleNext()">Next</button>
+        <button name="goback" id="goback" class="saveandnext" onclick="handleBack()">Back</button>
+        <button name="saveandnext" id="save" class="saveandnext" onclick="handleClear()">Clear</button>
+      </div>
+      
+    </div>
+  </div>
+{% endblock content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>

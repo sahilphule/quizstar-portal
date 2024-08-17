@@ -1,0 +1,565 @@
+{% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sokalp - Results</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'portal/favicon.png' %}">
+
+    <style>
+      div {
+        transition: all 0.1s;
+      }
+      button{
+        transition: all 0.1s;
+      }
+    </style>
+
+    <style>
+      table {
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        width: 100%;
+      }
+      table tr th,
+      table tr td {
+        border-bottom: 1px solid #cbd5e1;
+      }
+      table tr:last-child th,
+      table tr:last-child td {
+        border-bottom: 0;
+      }
+      table tr th {
+        border-top: 1px solid #cbd5e1;
+        text-align: left;
+      }
+
+      #reset-user:hover{
+        stroke: #fb923c;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-100 tracking-wide leading-4 w-screen">
+    <style>
+      .spinner-wrapper {
+        background-color: rgba(0, 0, 0, 0.3);
+        position: fixed;
+        top: 0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        z-index:9999;
+        display: flex;
+        justify-content: center;
+      }
+    
+      .spinner-border {
+        height: 60px;
+        width: 60px;
+        margin-top: 30vh;
+      }
+    
+    </style>
+    <div class="spinner-wrapper" style='display: none'>
+      <div class="spinner-border text-primary" role='status'>
+        <span class="visually-hidden" style='color:white; font-size:18px'>Resetting Users...</span>
+      </div>
+    </div>
+    {% csrf_token %}
+    <style>
+      .spinner-wrapper {
+        background-color: rgba(0, 0, 0, 0.3);
+        position: fixed;
+        top: 0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        z-index:9999;
+        display: flex;
+        justify-content: center;
+      }
+    
+      .spinner-border {
+        height: 60px;
+        width: 60px;
+        margin-top: 30vh;
+      }
+    
+    </style>
+    <div
+      class="upper-nav-bar ml-[80px] bg-white flex justify-between items-center"
+    >
+      <h1 class="font-semibold p-4 text-base">{{test.test_name}}</h1>
+      <script>
+        const test_id = {{test.id}};
+      </script>
+      <div
+        class="flex gap-2 items-center text-gray-500 p-4 hover:bg-slate-200 h-full"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+          />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+          />
+        </svg>
+        <span class="font-semibold">Preview</span>
+      </div>
+    </div>
+    <div class="flex items-start">
+      <div
+        class="bg-white p-6 shadow-md fixed top-0 left-0 w-[80px] h-screen flex flex-col items-center justify-between"
+      >
+        <div class="flex items-center flex-col w-[44px]">
+          <a href="{% url 'admin' %}">
+            <img src="{% static 'portal/sokalp-logo.png' %}" class="h-auto" alt="" />
+          </a>
+          <a href="{% url 'admin' %}" class="flex items-center group hover:stroke-orange-400 gap-3 font-semibold mt-10">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6 group-hover:stroke-orange-400 stroke-slate-500"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122"
+              />
+            </svg>
+          </a>
+          <a href="{% url 'users-database' %}">
+            <button
+              class="flex items-center gap-3 group hover:text-orange-400  font-semibold mt-10"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 group-hover:stroke-orange-400 stroke-slate-500"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
+                />
+              </svg>
+            </button>
+          </a>
+          <button
+            class="flex items-center gap-3 group hover:text-orange-400 stroke-slate-500 font-semibold mt-10"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6 group-hover:stroke-orange-400 stroke-slate-500"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"
+              />
+            </svg>
+          </button>
+          <button
+            class="flex items-center gap-3 group hover:text-orange-400 stroke-slate-500 font-semibold mt-10"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6 group-hover:stroke-orange-400 stroke-slate-500"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+              />
+            </svg>
+          </button>
+        </div>
+        <a href="{% url 'logout' %}">
+          <button
+            class="flex items-center gap-3 text-gray-500 hover:text-red-500 font-semibold"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m-6 3.75 3 3m0 0 3-3m-3 3V1.5m6 9h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75"
+              />
+            </svg>
+          </button>
+        </a>
+      </div>
+      <div class="flex mt-7 items-baseline gap-6 w-screen">
+        <div class="ml-[96px] mt-2 flex flex-col gap-6 w-[260px]">
+          <a href="{% url 'test-activate' test.id %}">
+            <span
+              class="text-[12.5px] px-[8px] mb-4 py-[6px] rounded-md font-semibold border-2 self-start 
+              {% if tests.activated %}
+                border-green-500 text-green-500
+              {% else %}
+                border-slate-400
+                text-slate-400
+              {% endif %}
+              "
+            >
+              {% if tests.activated %}
+                ACTIVE
+              {% else %}
+                INACTIVE
+              {% endif %}
+            </span>
+          </a>
+          <h1 class="font-bold text-[18px]">Test configuration</h1>
+          <ul class="list-none">
+            <li>
+              <a href="{% url 'basic-settings' test.id %}">
+                <div class="p-3 flex items-center group hover:bg-white gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 stroke-slate-500 group-hover:stroke-orange-400"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                    />
+                  </svg>
+                  <p
+                    class="text-[15px] text-slate-500 group-hover:text-black font-semibold"
+                  >
+                    Basic Settings
+                  </p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'edit-test' test.id %}">
+                <div
+                  class="p-3 flex items-center gap-3 rounded-md group hover:bg-white"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 stroke-slate-500 group-hover:stroke-orange-400"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+                    />
+                  </svg>
+                  <p
+                    class="text-[14px] text-slate-500 group-hover:text-black font-semibold"
+                  >
+                    Questions manager
+                  </p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'time-settings' test.id %}">
+                <div
+                  class="p-3 flex items-center gap-3 rounded-md group hover:bg-white"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 stroke-slate-500 group-hover:stroke-orange-400"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                  <p class="text-[14px] text-slate-500 group-hover:text-black font-semibold">
+                    Time settings
+                  </p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'results' test.id %}">
+                <div
+                  class="p-3 flex shadow-sm items-center gap-3 bg-white rounded-md"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 stroke-orange-400"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"
+                    />
+                  </svg>
+                  <p
+                    class="text-[14px] group-hover:text-black font-semibold"
+                  >
+                    Results
+                  </p>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="mt-2 px-[8px] flex-grow flex flex-col gap-6 mr-4">
+          <h1 class="font-semibold text-[18px] mb-4">Results</h1>
+
+          <div class="bg-white p-5 rounded-md flex-1 flex flex-col gap-3">
+            <h1 class="font-semibold leading-6 text-[13px] mb-6">
+              RESULTS
+            </h1>
+            <table id='table' class="">
+              <tbody>
+                <tr class="">
+                  <td
+                    class="px-3 py-5 text-[12px] font-semibold tracking-wide text-left"
+                  >
+                    <input type="checkbox" class="size-4" name="checkbox-all" id="checkbox-all" />
+                  </td>
+                  <td
+                    class="px-3 py-5 text-[12px] font-semibold tracking-wide text-left"
+                  >
+                    USERNAME
+                  </td>
+                  <td
+                    class="px-3 py-5 text-[12px] font-semibold tracking-wide text-left"
+                  >
+                    FIRST NAME
+                  </td>
+                  <td
+                    class="px-3 py-5 text-[12px] font-semibold tracking-wide text-left"
+                  >
+                    LAST NAME
+                  </td>
+                  <td
+                    class="px-3 py-5 text-[12px] font-semibold tracking-wide text-left"
+                  >
+                    SCORE
+                  </td>
+                  <td class="py-2 text-[12px] font-semibold tracking-wide text-left">
+                      <button id='delete-btn' class="hidden p-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" id='reset-user' fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                      </button>
+                  </td>
+                </tr>
+                <tr class="">
+                  <td
+                    class="py-2 text-[12px] font-semibold tracking-wide text-left"
+                  >
+                    <input
+                      type="checkbox"
+                      class="size-4"
+                      style="display: none"
+                      name=""
+                      id=""
+                    />
+                  </td>
+                  <td
+                    class="py-2 text-[12px] font-semibold tracking-wide text-left"
+                  >
+                    <input
+                      type="text"
+                      placeholder="Filter"
+                      class="border-b-2 font-normal text-[14px] p-2 outline-none focus:border-orange-400"
+                      name=""
+                      id="username-filter"
+                    />
+                  </td>
+                  <td
+                    class="py-2 text-[12px] font-semibold tracking-wide text-left"
+                  >
+                    <input
+                      type="text"
+                      placeholder="Filter"
+                      class="border-b-2 font-normal text-[14px] p-2 outline-none focus:border-orange-400"
+                      name=""
+                      id="firstname-filter"
+                    />
+                  </td>
+                  <td
+                    class="py-2 text-[12px] font-semibold tracking-wide text-left"
+                  >
+                    <input
+                      type="text"
+                      placeholder="Filter"
+                      class="border-b-2 font-normal text-[14px] p-2 outline-none focus:border-orange-400"
+                      name=""
+                      id="lastname-filter"
+                    />
+                  </td>
+                  <td
+                    class="py-2 text-[12px] font-semibold tracking-wide text-left"
+                  >
+                    <input
+                      type="text"
+                      placeholder="Filter"
+                      class="border-b-2 font-normal text-[14px] p-2 outline-none focus:border-orange-400"
+                      name=""
+                      id=""
+                    />
+                  </td>
+                  <td class="py-2 text-[12px] font-semibold tracking-wide text-left">                  
+                  </td>
+                </tr>
+                {% for user in users %}
+                    <tr class="" onclick="window.location.href = `{% url 'result-detailed' user.id test.id %}`" >
+                      <td class="px-3 py-5 text-[14px] text-gray-700">
+                        <input type="checkbox" data-status='{{user.test_status}}' name='question_check' class="size-4 question_check" id='{{user.id}}'
+                          {% if user.test_status == '1' %}
+                            disabled                        
+                          {% endif %}
+                        />
+                      </td>
+                      <td class="px-3 py-5 text-[14px] text-gray-700">
+                        {% if user.username == "" %}
+                        - 
+                        {% else %}
+                        {{user.username}} 
+                        {% endif %}
+                      </td>
+                      <td class="px-3 py-5 text-[14px] text-gray-700">
+                        {% if user.first_name == "" %} 
+                          - 
+                        {% else %}
+                          {{user.first_name|title}} 
+                        {% endif %}
+                      </td>
+                      <td class="px-3 py-5 text-[14px] text-gray-700">
+                        {% if user.last_name == "" %} 
+                          - 
+                        {% else %}
+                        {{user.last_name|title}} 
+                        {% endif %}
+                      </td>
+                      <td class="px-3 py-5 text-[14px] text-gray-700">
+                        {% if user.score == "" %}
+                        -
+                        {% else %}
+                        {{user.score}} / {{test_question_no}}
+                        {% endif %}
+                      </td>
+                      <td class="py-2 text-[12px] font-semibold tracking-wide text-left">
+                        <a class='hidden' href="{% url 'reset-user' user.id test.id  %}">
+                          <button class="{% if user.test_status == '1' %} hidden {% elif user.test_status == '2' %} inline-block {% endif %} p-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" id='reset-user' fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                            </svg>
+                          </button>
+                        </a>
+                      </td>
+                    </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+    id="modal-sam"
+    class="modal-sam hidden fixed inset-0 bg-black bg-opacity-25 justify-center items-center"
+  >
+    <div class="w-[600px] flex flex-col">
+      <div class="bg-white p-5 rounded">
+        <div>
+          <h1 class="text-[18px] font-semibold">Deleting questions</h1>
+        </div>
+        <div class="mt-6">
+          <span class="text-[16px] font-medium leading-6 text-slate-500">
+            Are you sure you want to <span class='font-semibold text-red-500'>permanently</span> reset the selected user(s)?
+          </span>
+          <div class="mt-3 flex flex-col" method="POST">
+            {% csrf_token %}
+            <div class="buttons mt-3 flex gap-2 self-end items-center">
+              <button
+                id="hide-modal"
+                class="text-black px-4 py-[10px] font-semibold border-[2px] text-[16px] rounded-md hover:border-orange-400 hover:text-orange-400"
+              >
+                Cancel
+              </button>
+                <button
+                  id='reset-user-btn'
+                  class="bg-red-400 text-white px-4 py-[10px] font-semibold text-[16px] rounded-md hover:bg-red-500"
+                >
+                  Reset
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <script>
+      function handleResultClick(userID, testID){
+        window.location.href = {% url 'result-detailed' user.id test.id %}
+      }
+    </script>
+    <script src='{% static "portal/results.js" %}'></script>
+  </body>
+</html>

@@ -1,5 +1,5 @@
-configmap.yaml
-*secret.yaml
+configmap.yml
+*secret.yml
 .env
 data
 __pycache__
