@@ -24,11 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.getenv('DEBUG', default=0))
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost','http://127.0.0.1']
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(',')
 
 # Application definition
 
@@ -125,11 +125,11 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 if not DEBUG:
-    STATIC_ROOT = 'static/'
+    STATIC_ROOT = BASE_DIR / 'nginx' / 'staticfiles/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static1/",
-    BASE_DIR /  "portal" / "templates" / "portal" / "user-login" /  "build" / "static/"             
+    BASE_DIR / 'static/',
+    BASE_DIR /  'portal' / 'templates' / 'portal' / 'user-login' /  'build' / 'static/',
 ]
 
 # Default primary key field type
