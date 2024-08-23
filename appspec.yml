@@ -5,6 +5,6 @@ files:
   destination: /home/ec2-user/quizstar-portal
 hooks:
   AfterInstall:
-  - location: ./container.sh
+  - location: ./compose/container.sh
     timeout: 300
     runas: ec2-user

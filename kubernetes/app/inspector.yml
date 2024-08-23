@@ -10,9 +10,9 @@ spec:
     command: ["tail"]
     args: ["-f", "/dev/null"]
     volumeMounts:
-    - name: django-volume-mount
-      mountPath: /django
+    - name: app-volume-mount
+      mountPath: /app
   volumes:
-  - name: django-volume-mount
+  - name: app-volume-mount
     persistentVolumeClaim:
-      claimName: django-pvc
+      claimName: app-pvc

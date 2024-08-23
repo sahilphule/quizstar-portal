@@ -7,10 +7,10 @@ kubectl delete service/nginx-service -n quizstar-portal
 # kubectl delete deployment/redis-deployment -n quizstar-portal
 # kubectl delete service/redis-service -n quizstar-portal
 
-kubectl delete deployment/django-app-deployment -n quizstar-portal
-kubectl delete service/django-app-service -n quizstar-portal
-kubectl delete pvc django-app-pvc -n quizstar-portal
-kubectl delete pv django-app-pv -n quizstar-portal
+kubectl delete deployment/app-deployment -n quizstar-portal
+kubectl delete service/app-service -n quizstar-portal
+kubectl delete pvc app-pvc -n quizstar-portal
+kubectl delete pv app-pv -n quizstar-portal
 
 kubectl delete deployment/mysql-deployment -n quizstar-portal
 kubectl delete service/mysql-service -n quizstar-portal

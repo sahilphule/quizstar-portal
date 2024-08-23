@@ -4,24 +4,22 @@ services:
     container_name: mysql-service
     restart: always
     volumes:
-    - ./django-app/data:/var/lib/mysql
+    - ../app/data:/var/lib/mysql
     env_file:
     - ./.env
 
-  django-app:
-    image: sahilphule0710/django-app
+  app:
+    image: sahilphule0710/app
     # build:
-    #   context: ./django-app
+    #   context: ../app
     #   dockerfile: dockerfile
-    container_name: django-app-service
+    container_name: app-service
     command: ['/bin/sh','./entrypoint.sh']
     restart: always
     volumes:
-    - ./django-app:/django-app
+    - ../app:/app
     env_file:
     - ./.env
-    ports:
-    - 8000:8000
     depends_on:
     - mysql
 
@@ -30,11 +28,12 @@ services:
     container_name: nginx-service
     restart: always
     volumes:
-    - ./django-app:/django-app
+    - ../app/nginx/:/app/nginx/
+    - ../app/nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
     - 80:80
     depends_on:
-    - django-app
+    - app
 
   # redis:
   #   image: redis
@@ -42,22 +41,22 @@ services:
   #   restart: always
 
   # celery:
-  #   image: sahilphule0710/django-app
+  #   image: sahilphule0710/app
   #   container_name: celery-service
   #   command: celery -A core worker -l INFO
   #   restart: always
   #   volumes:
-  #   - ./django-app:/django-app
+  #   - ../app:/app
   #   depends_on:
-  #   - django-app
+  #   - app
   #   - redis
   
   # celery_beat:
-  #   image: sahilphule0710/django-app
+  #   image: sahilphule0710/app
   #   container_name: celery-beat-service
   #   command: celery -A core beat -l info
   #   restart: always
   #   volumes:
-  #   - ./django-app:/django-app
+  #   - ../app:/app
   #   depends_on:
   #   - celery

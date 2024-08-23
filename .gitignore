@@ -1,6 +1,9 @@
-configmap.yaml
-*secret.yaml
+configmap.yml
+*secret.yml
 .env
 data
+staticfiles
 __pycache__
 celerybeat-schedule
+nginx.md
+nginx.pdf

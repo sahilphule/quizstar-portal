@@ -1,35 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: worker-deployment
+  name: beat-deployment
   namespace: quizstar-portal
   labels:
-    deployment: celery-worker
+    deployment: celery-beat
 spec:
   replicas: 1
   selector:
     matchLabels:
-      pod: celery-worker
+      pod: celery-beat
   template:
     metadata:
       labels:
-        pod: celery-worker
+        pod: celery-beat
     spec:
       restartPolicy: Always
       containers:
-      - name: celery-worker-container
-        image: sahilphule0710/django-app
+      - name: celery-beat-container
+        image: sahilphule0710/app
         imagePullPolicy: Never
-        command: ['celery', '-A', 'core', 'worker', '-l', 'INFO']
+        command: ['celery', '-A', 'core', 'beat', '-l', 'DEBUG']
         envFrom:
         - configMapRef:
             name: app-configmap
         - secretRef:
             name: app-secret
         volumeMounts:
-        - name: django-app-volume-mount
-          mountPath: /django-app
+        - name: app-mount-volume
+          mountPath: /app
       volumes:
-      - name: django-app-volume-mount
+      - name: app-mount-volume
         persistentVolumeClaim:
-          claimName: django-app-pvc
+          claimName: app-pvc

@@ -4,7 +4,7 @@ metadata:
   name: nginx-deployment
   namespace: quizstar-portal
   labels:
-    pod: nginx
+    deployment: nginx
 spec:
   replicas: 1
   selector:
@@ -20,14 +20,13 @@ spec:
       - name: docker-secret
       containers:
       - name: nginx-container
-        image: sahilphule0710/django-app-nginx
-        # imagePullPolicy: Never
+        image: sahilphule0710/nginx
         ports:
         - containerPort: 80
         volumeMounts:
-        - name: django-app-volume-mount
-          mountPath: /django-app
+        - name: app-volume-mount
+          mountPath: /app
       volumes:
-      - name: django-app-volume-mount
+      - name: app-volume-mount
         persistentVolumeClaim:
-          claimName: django-app-pvc
+          claimName: app-pvc

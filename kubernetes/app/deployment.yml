@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: django-app-deployment
+  name: app-deployment
   namespace: quizstar-portal
   labels:
-    deployment: django-app
+    deployment: app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      pod: django-app
+      pod: app
   template:
     metadata:
       labels:
-        pod: django-app
+        pod: app
     spec:
       restartPolicy: Always
       imagePullSecrets:
       - name: docker-secret
       containers:
-      - name: django-app-container
-        image: sahilphule0710/django-app
+      - name: app-container
+        image: sahilphule0710/app
         # imagePullPolicy: Never
         command: ['/bin/sh','./entrypoint.sh']
         ports:
@@ -31,9 +31,9 @@ spec:
         - secretRef:
             name: app-secret
         volumeMounts:
-        - name: django-app-volume-mount
-          mountPath: /django-app
+        - name: app-volume-mount
+          mountPath: /app
       volumes:
-      - name: django-app-volume-mount
+      - name: app-volume-mount
         persistentVolumeClaim:
-          claimName: django-app-pvc
+          claimName: app-pvc
