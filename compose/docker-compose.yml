@@ -9,10 +9,10 @@ services:
     - ./.env
 
   app:
-    image: sahilphule0710/app
-    # build:
-    #   context: ../app
-    #   dockerfile: dockerfile
+    image: app
+    build:
+      context: ../app
+      dockerfile: dockerfile
     container_name: app-service
     command: ['/bin/sh','./entrypoint.sh']
     restart: always

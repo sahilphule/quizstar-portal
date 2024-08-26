@@ -1,9 +1,10 @@
-configmap.yml
-*secret.yml
-.env
 data
 staticfiles
 __pycache__
 celerybeat-schedule
+.env
+configmap.yml
+*secret.yml
+terraform
 nginx.md
 nginx.pdf
