@@ -24,11 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.getenv('DEBUG', default=0))
+DEBUG = int(os.getenv('DEBUG', default = 0))
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
+ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(',')
+CSRF_TRUSTED_ORIGINS = ['http://' + os.getenv('EC2_INSTANCE_PUBLIC_IP', default = 'localhost')]
 
 # Application definition
 
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'portal',
-    # 'storages',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -124,8 +124,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-if not DEBUG:
-    STATIC_ROOT = BASE_DIR / 'nginx' / 'staticfiles/'
+# if not DEBUG:
+#     STATIC_ROOT = BASE_DIR / 'nginx' / 'staticfiles/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static/',
@@ -156,23 +156,23 @@ TINYMCE_DEFAULT_CONFIG = {
 }
 
 
-# # AWS S3 Configuration
-# AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-# AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-# AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-# AWS_S3_FILE_OVERWRITE = False
+# AWS S3 Configuration
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_FILE_OVERWRITE = False
 
 
-# # Storage
-# STORAGES = {
-#     #Media files
-#     "default": {
-#         "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
-#     },
+# Storage
+STORAGES = {
+    #Media files
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
+    },
 
-#     #Static files
-#     "staticfiles": {
-#         "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
-#     },
-# }
+    #Static files
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
+    },
+}
