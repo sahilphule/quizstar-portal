@@ -141,6 +141,52 @@ resource "aws_db_instance" "quizstar-db" {
   }
 }
 
+resource "aws_s3_bucket" "quizstar-bucket" {
+  bucket = var.bucket_name
+  force_destroy = true
+  tags = {
+    Name = "quizstar-bucket"
+  }
+}
+
+resource "aws_s3_bucket_ownership_controls" "quizstar-bucket-owner" {
+  bucket = aws_s3_bucket.quizstar-bucket.id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "quizstar-bucket-public-access" {
+  bucket = aws_s3_bucket.quizstar-bucket.id
+
+  block_public_acls = false
+  block_public_policy = false
+  ignore_public_acls = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_acl" "quizstar-bucket-acl" {
+  bucket = aws_s3_bucket.quizstar-bucket.id
+  acl = "public-read"
+}
+
+resource "aws_s3_bucket_policy" "quizstar-bucket-policy" {
+  bucket = aws_s3_bucket.quizstar-bucket.id
+
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "*",
+            "Resource": "arn:aws:s3:::quizstar-bucket/*"
+        }
+    ]
+  })
+}
+
 resource "aws_key_pair" "quizstar-key-pair" {
   key_name   = "quizstar-key"
   public_key = file("~/.ssh/quizstar-key.pub")

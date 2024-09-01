@@ -7,6 +7,7 @@ configmap.yml
 *secret.yml
 *.md
 terraform1
+terraform.tfvars
 variables.tf
 nginx.pdf
 ec2.nginx
