@@ -1,4 +1,4 @@
-cd "~/desktop/quizstar-portal/terraform1"
+cd "~/desktop/quizstar-portal/terraform"
 terraform destroy -auto-approve
 terraform apply -auto-approve
 sed -i '/^EC2_INSTANCE_PUBLIC_IP/d' ../compose/.env

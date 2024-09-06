@@ -15,6 +15,5 @@ kustomization.yml
 terraform.tfstate
 terraform.tfstate.backup
 terraform.tfvars
-variables.tf
 
 documentation

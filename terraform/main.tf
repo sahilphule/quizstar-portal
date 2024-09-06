@@ -109,18 +109,18 @@ resource "aws_security_group" "quizstar-db-sg" {
   }
 }
 
-resource "aws_db_subnet_group" "quizstar-db-subnet-group" {
-  name        = "quizstar-db subnet group"
-  description = "db subnet group for quizstar"
-  subnet_ids  = [for subnet in aws_subnet.quizstar-private-subnet : subnet.id]
-}
-
 resource "aws_vpc_security_group_ingress_rule" "allow-ec2-traffic" {
   security_group_id            = aws_security_group.quizstar-db-sg.id
   from_port                    = "3306"
   to_port                      = "3306"
   ip_protocol                  = "tcp"
   referenced_security_group_id = aws_security_group.quizstar-ec2-sg.id
+}
+
+resource "aws_db_subnet_group" "quizstar-db-subnet-group" {
+  name        = "quizstar-db subnet group"
+  description = "db subnet group for quizstar"
+  subnet_ids  = [for subnet in aws_subnet.quizstar-private-subnet : subnet.id]
 }
 
 resource "aws_s3_bucket" "quizstar-bucket" {
@@ -199,7 +199,7 @@ resource "aws_instance" "quizstar-instance" {
   key_name               = aws_key_pair.quizstar-key-pair.id
   vpc_security_group_ids = [aws_security_group.quizstar-ec2-sg.id]
   subnet_id              = aws_subnet.quizstar-public-subnet[count.index].id
-  user_data              = file("../startup-config.tpl")
+  user_data              = file("./startup-config.tpl")
 
   tags = {
     Name = "quizstar-instance$(count.index)"
