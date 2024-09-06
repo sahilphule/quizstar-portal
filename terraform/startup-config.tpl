@@ -17,10 +17,10 @@ git clone -b dev https://github.com/sahilphule/quizstar-portal.git
 
 sudo chmod 777 -R quizstar-portal/*
 
-# sudo yum update
-# sudo yum install -y ruby
-# sudo yum install -y wget
-# cd /home/ec2-user
-# wget https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
-# chmod +x ./install
-# sudo ./install auto
+sudo yum update
+sudo yum install -y ruby
+sudo yum install -y wget
+cd /home/ec2-user
+wget https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
+chmod +x ./install
+sudo ./install auto

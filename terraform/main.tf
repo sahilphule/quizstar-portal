@@ -109,36 +109,18 @@ resource "aws_security_group" "quizstar-db-sg" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "allow-ec2-traffic" {
-  security_group_id            = aws_security_group.quizstar-db-sg.id
-  from_port                    = "3306"
-  to_port                      = "3306"
-  ip_protocol                  = "tcp"
-  referenced_security_group_id = aws_security_group.quizstar-ec2-sg.id
-}
-
 resource "aws_db_subnet_group" "quizstar-db-subnet-group" {
   name        = "quizstar-db subnet group"
   description = "db subnet group for quizstar"
   subnet_ids  = [for subnet in aws_subnet.quizstar-private-subnet : subnet.id]
 }
 
-resource "aws_db_instance" "quizstar-db" {
-  allocated_storage      = var.settings.database.allocated_storage
-  db_name                = var.settings.database.db_name
-  engine                 = var.settings.database.engine
-  engine_version         = var.settings.database.engine_version
-  instance_class         = var.settings.database.instance_class
-  username               = var.db_username
-  password               = var.db_password
-  db_subnet_group_name   = aws_db_subnet_group.quizstar-db-subnet-group.id
-  vpc_security_group_ids = [aws_security_group.quizstar-db-sg.id]
-  publicly_accessible    = var.settings.database.publicly_accessible
-  skip_final_snapshot    = var.settings.database.skip_final_snapshot
-
-  tags = {
-    Name = "quizstar-db"
-  }
+resource "aws_vpc_security_group_ingress_rule" "allow-ec2-traffic" {
+  security_group_id            = aws_security_group.quizstar-db-sg.id
+  from_port                    = "3306"
+  to_port                      = "3306"
+  ip_protocol                  = "tcp"
+  referenced_security_group_id = aws_security_group.quizstar-ec2-sg.id
 }
 
 resource "aws_s3_bucket" "quizstar-bucket" {
@@ -185,6 +167,24 @@ resource "aws_s3_bucket_policy" "quizstar-bucket-policy" {
         }
     ]
   })
+}
+
+resource "aws_db_instance" "quizstar-db" {
+  allocated_storage      = var.settings.database.allocated_storage
+  db_name                = var.settings.database.db_name
+  engine                 = var.settings.database.engine
+  engine_version         = var.settings.database.engine_version
+  instance_class         = var.settings.database.instance_class
+  username               = var.db_username
+  password               = var.db_password
+  db_subnet_group_name   = aws_db_subnet_group.quizstar-db-subnet-group.id
+  vpc_security_group_ids = [aws_security_group.quizstar-db-sg.id]
+  publicly_accessible    = var.settings.database.publicly_accessible
+  skip_final_snapshot    = var.settings.database.skip_final_snapshot
+
+  tags = {
+    Name = "quizstar-db"
+  }
 }
 
 resource "aws_key_pair" "quizstar-key-pair" {
