@@ -123,6 +123,52 @@ resource "aws_db_subnet_group" "quizstar-db-subnet-group" {
   subnet_ids  = [for subnet in aws_subnet.quizstar-private-subnet : subnet.id]
 }
 
+resource "aws_s3_bucket" "quizstar-bucket" {
+  bucket = var.bucket_name
+  force_destroy = true
+  tags = {
+    Name = "quizstar-bucket"
+  }
+}
+
+resource "aws_s3_bucket_ownership_controls" "quizstar-bucket-owner" {
+  bucket = aws_s3_bucket.quizstar-bucket.id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "quizstar-bucket-public-access" {
+  bucket = aws_s3_bucket.quizstar-bucket.id
+
+  block_public_acls = false
+  block_public_policy = false
+  ignore_public_acls = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_acl" "quizstar-bucket-acl" {
+  bucket = aws_s3_bucket.quizstar-bucket.id
+  acl = "public-read"
+}
+
+resource "aws_s3_bucket_policy" "quizstar-bucket-policy" {
+  bucket = aws_s3_bucket.quizstar-bucket.id
+
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "*",
+            "Resource": "arn:aws:s3:::quizstar-bucket/*"
+        }
+    ]
+  })
+}
+
 resource "aws_db_instance" "quizstar-db" {
   allocated_storage      = var.settings.database.allocated_storage
   db_name                = var.settings.database.db_name
@@ -153,7 +199,7 @@ resource "aws_instance" "quizstar-instance" {
   key_name               = aws_key_pair.quizstar-key-pair.id
   vpc_security_group_ids = [aws_security_group.quizstar-ec2-sg.id]
   subnet_id              = aws_subnet.quizstar-public-subnet[count.index].id
-  user_data              = file("../startup-config.tpl")
+  user_data              = file("./startup-config.tpl")
 
   tags = {
     Name = "quizstar-instance$(count.index)"
