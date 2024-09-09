@@ -2,8 +2,10 @@ name: Publish Docker Image to Docker Hub
 
 on:
   push:
-    branches: [ "dev" ]
-    paths: ["./app/dockerfile"]
+    branches:
+      - dev
+    paths:
+      - ./app/dockerfile
 
 jobs:
   build:
