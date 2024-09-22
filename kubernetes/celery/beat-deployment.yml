@@ -18,18 +18,11 @@ spec:
       restartPolicy: Always
       containers:
       - name: celery-beat-container
-        image: sahilphule0710/app
+        image: sahilphule0710/quizstar-portal:latest
         imagePullPolicy: Never
         command: ['celery', '-A', 'core', 'beat', '-l', 'DEBUG']
         envFrom:
         - configMapRef:
-            name: app-configmap
+            name: quizstar-portal-configmap
         - secretRef:
-            name: app-secret
-        volumeMounts:
-        - name: app-mount-volume
-          mountPath: /app
-      volumes:
-      - name: app-mount-volume
-        persistentVolumeClaim:
-          claimName: app-pvc
+            name: quizstar-portal-secrets

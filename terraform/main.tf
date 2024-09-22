@@ -199,7 +199,7 @@ resource "aws_instance" "quizstar-instance" {
   key_name               = aws_key_pair.quizstar-key-pair.id
   vpc_security_group_ids = [aws_security_group.quizstar-ec2-sg.id]
   subnet_id              = aws_subnet.quizstar-public-subnet[count.index].id
-  user_data              = file("./startup-config.tpl")
+  user_data              = file("../aws/startup-config.tpl")
 
   tags = {
     Name = "quizstar-instance$(count.index)"

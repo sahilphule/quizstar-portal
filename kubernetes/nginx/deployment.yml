@@ -16,17 +16,20 @@ spec:
         pod: nginx
     spec:
       restartPolicy: Always
-      imagePullSecrets:
-      - name: docker-secret
       containers:
       - name: nginx-container
-        image: sahilphule0710/nginx
+        image: nginx:latest
         ports:
         - containerPort: 80
         volumeMounts:
-        - name: app-volume-mount
-          mountPath: /app
+        - name: nginx-conf-configmap
+          mountPath: /etc/nginx/conf.d/
+        - name: staticfiles-volume
+          mountPath: /usr/src/staticfiles/
       volumes:
-      - name: app-volume-mount
+      - name: nginx-conf-configmap
+        configMap:
+          name: nginx-conf-configmap
+      - name: staticfiles-volume
         persistentVolumeClaim:
-          claimName: app-pvc
+          claimName: staticfiles-pvc

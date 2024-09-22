@@ -28,7 +28,7 @@ DEBUG = int(os.getenv('DEBUG', default = 0))
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['http://' + os.getenv('EC2_INSTANCE_PUBLIC_IP', default = 'localhost')]
+CSRF_TRUSTED_ORIGINS = ['http://' + os.getenv('INSTANCE_PUBLIC_IP', default = '127.0.0.1')]
 
 # Application definition
 
@@ -122,18 +122,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static/',
     BASE_DIR /  'portal' / 'templates' / 'portal' / 'user-login' /  'build' / 'static/',
 ]
 
+STATIC_URL = 'static/'
+# if not DEBUG:
+#     STATIC_ROOT = BASE_DIR / 'staticfiles/'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
-# if not DEBUG:
-#     STATIC_ROOT = BASE_DIR / 'nginx' / 'staticfiles/'
 
 
 # Default primary key field type

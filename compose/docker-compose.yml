@@ -1,62 +1,63 @@
 services:
   # mysql:
-  #   image: mysql
+  #   image: mysql:latest
   #   container_name: mysql-service
   #   restart: always
   #   volumes:
-  #   - ../app/data:/var/lib/mysql
+  #   - ../db:/var/lib/mysql
   #   env_file:
   #   - ./.env
 
   app:
-    image: sahilphule0710/app
-    # build:
-    #   context: ../app
-    #   dockerfile: dockerfile
+    image: sahilphule0710/quizstar-portal:latest
+    build:
+      context: ../app
+      dockerfile: dockerfile
     container_name: app-service
-    command: ['/bin/sh','./entrypoint.sh']
     restart: always
     volumes:
-    - ../app:/app
+      - nginx_conf:/app/nginx/
+      - staticfiles:/app/staticfiles/
+      # - ../app:/app
     env_file:
     - ./.env
     # depends_on:
     # - mysql
 
   nginx:
-    image: nginx
+    image: nginx:latest
     container_name: nginx-service
     restart: always
     volumes:
-    - ../app/nginx/:/app/nginx/
-    - ../app/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - nginx_conf:/etc/nginx/conf.d/
+      - staticfiles:/usr/src/staticfiles/
     ports:
     - 80:80
     depends_on:
     - app
 
   # redis:
-  #   image: redis
+  #   image: redis:latest
   #   container_name: redis-service
   #   restart: always
 
   # celery:
-  #   image: sahilphule0710/app
+  #   image: sahilphule0710/app:latest
   #   container_name: celery-service
   #   command: celery -A core worker -l INFO
   #   restart: always
-  #   volumes:
-  #   - ../app:/app
   #   depends_on:
   #   - app
   #   - redis
   
   # celery_beat:
-  #   image: sahilphule0710/app
+  #   image: sahilphule0710/app:latest
   #   container_name: celery-beat-service
   #   command: celery -A core beat -l info
   #   restart: always
-  #   volumes:
-  #   - ../app:/app
   #   depends_on:
   #   - celery
+
+volumes:
+  nginx_conf:
+  staticfiles:

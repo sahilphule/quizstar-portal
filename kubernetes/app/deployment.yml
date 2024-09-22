@@ -20,20 +20,19 @@ spec:
       - name: docker-secret
       containers:
       - name: app-container
-        image: sahilphule0710/app
-        # imagePullPolicy: Never
+        image: sahilphule0710/quizstar-portal:latest
         command: ['/bin/sh','./entrypoint.sh']
         ports:
         - containerPort: 8000
         envFrom:
         - configMapRef:
-            name: app-configmap
+            name: quizstar-portal-configmap
         - secretRef:
-            name: app-secret
+            name: quizstar-portal-secrets
         volumeMounts:
-        - name: app-volume-mount
-          mountPath: /app
+        - name: staticfiles-volume
+          mountPath: /app/staticfiles/
       volumes:
-      - name: app-volume-mount
+      - name: staticfiles-volume
         persistentVolumeClaim:
-          claimName: app-pvc
+          claimName: staticfiles-pvc
