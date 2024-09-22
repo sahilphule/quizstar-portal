@@ -26,4 +26,4 @@ jobs:
       with:
         context: ./app
         push: true
-        tags: sahilphule0710/app
+        tags: sahilphule0710/quizstar-portal:latest

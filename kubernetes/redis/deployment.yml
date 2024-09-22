@@ -17,6 +17,11 @@ spec:
     spec:
       containers:
       - name: redis-container
-        image: redis
+        image: redis:latest
         ports:
         - containerPort: 6379
+        envFrom:
+        - configMapRef:
+            name: quizstar-portal-configmap
+        - secretRef:
+            name: quizstar-portal-secrets

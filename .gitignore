@@ -1,14 +1,13 @@
-data
+db
 staticfiles
 __pycache__
 celerybeat-schedule
 
 .env
-configmap.yml
-*secret.yml
 
-commands
-kustomization.yml
+accessories
+*configmap.yml
+*secret.yml
 
 .terraform
 .terraform.lock.hcl
@@ -19,5 +18,3 @@ terraform.tfvars
 terraform1
 
 documentation
-
-movies

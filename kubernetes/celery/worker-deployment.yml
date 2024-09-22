@@ -18,18 +18,11 @@ spec:
       restartPolicy: Always
       containers:
       - name: celery-worker-container
-        image: sahilphule0710/app
+        image: sahilphule0710/quizstar-portal:latest
         imagePullPolicy: Never
         command: ['celery', '-A', 'core', 'worker', '-l', 'INFO']
         envFrom:
         - configMapRef:
-            name: app-configmap
+            name: quizstar-portal-configmap
         - secretRef:
-            name: app-secret
-        volumeMounts:
-        - name: app-volume-mount
-          mountPath: /app
-      volumes:
-      - name: app-volume-mount
-        persistentVolumeClaim:
-          claimName: app-pvc
+            name: quizstar-portal-secrets

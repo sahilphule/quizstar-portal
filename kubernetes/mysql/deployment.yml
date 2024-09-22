@@ -18,18 +18,18 @@ spec:
       restartPolicy: Always
       containers:
       - name: mysql-container
-        image: mysql
+        image: mysql:latest
         ports:
         - containerPort: 3306
         envFrom:
         - configMapRef:
-            name: app-configmap
+            name: quizstar-portal-configmap
         - secretRef:
-            name: app-secret
+            name: quizstar-portal-secrets
         volumeMounts:
-        - name: mysql-volume-mount
+        - name: mysql-volume
           mountPath: /var/lib/mysql
       volumes:
-      - name: mysql-volume-mount
+      - name: mysql-volume
         persistentVolumeClaim:
           claimName: mysql-pvc
