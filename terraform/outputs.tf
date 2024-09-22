@@ -1,4 +1,4 @@
-output "EC2_INSTANCE_PUBLIC_IP" {
+output "INSTANCE_PUBLIC_IP" {
   value = aws_instance.quizstar-instance[0].public_ip
 }
 

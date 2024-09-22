@@ -1,7 +1,10 @@
 #!bin/sh
 cd /home/ec2-user/quizstar-portal/compose
+printf '\nremoving containers if present\n\n'
 docker-compose -f docker-compose.yml down -v
+printf '\ncreating containers\n\n'
 docker-compose -f docker-compose.yml up -d
-# sleep 10
-# docker restart app-service
+printf '\nrestarting app container\n'
+sleep 30
+docker restart app-service
 docker-compose ps

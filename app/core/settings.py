@@ -28,7 +28,7 @@ DEBUG = int(os.getenv('DEBUG', default = 0))
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['http://' + os.getenv('EC2_INSTANCE_PUBLIC_IP', default = 'localhost')]
+CSRF_TRUSTED_ORIGINS = ['http://' + os.getenv('INSTANCE_PUBLIC_IP', default = '127.0.0.1')]
 
 # Application definition
 
