@@ -3,9 +3,9 @@ name: Publish Docker Image to Docker Hub
 on:
   push:
     branches:
-    - prod
+    - dev
     paths:
-    - ./app/dockerfile
+    - ./app/*
 
 jobs:
   build:
