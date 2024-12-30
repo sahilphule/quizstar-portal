@@ -14,7 +14,9 @@ accessories
 terraform.tfstate
 terraform.tfstate.backup
 terraform.tfvars
+locals.tf
 
 terraform1
+terraform3
 
 documentation

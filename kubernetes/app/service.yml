@@ -4,11 +4,9 @@ metadata:
   name: app-service
   namespace: quizstar-portal
 spec:
-  type: NodePort
   selector:
     pod: app
   ports:
   - protocol: TCP
     port: 8000
     targetPort: 8000
-    nodePort: 30001

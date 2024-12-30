@@ -1,9 +1,11 @@
-Set-Location '~/desktop/quizstar-portal/compose'
 printf '\nremoving containers if present\n\n'
-docker-compose -f docker-compose.yml down -v
+docker-compose down -v
+
 printf '\ncreating containers\n\n'
-docker-compose -f docker-compose.yml up -d
+docker-compose up -d
+
 printf '\nrestarting app container\n'
 Start-Sleep 30
 docker restart app-service
+
 docker-compose ps
