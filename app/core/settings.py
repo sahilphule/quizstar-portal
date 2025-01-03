@@ -128,7 +128,7 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_URL = 'static/'
-if os.getenv('STORAGE_TYPE') != 'rds':
+if os.getenv('STORAGE_TYPE') != 's3':
     STATIC_ROOT = BASE_DIR / 'staticfiles/'
 
 MEDIA_URL = 'media/'
@@ -158,7 +158,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'toolbar': 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link',
 }
 
-if os.getenv('STORAGE_TYPE') == 'rds':
+if os.getenv('STORAGE_TYPE') == 's3':
     # AWS S3 Configuration
     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')

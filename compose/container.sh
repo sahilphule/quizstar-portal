@@ -1,5 +1,4 @@
 #!bin/sh
-cd /home/ec2-user/quizstar-portal/compose
 printf '\nremoving containers if present\n\n'
 docker-compose -f docker-compose.yml down -v
 printf '\ncreating containers\n\n'

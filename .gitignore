@@ -16,7 +16,7 @@ terraform.tfstate.backup
 terraform.tfvars
 locals.tf
 
-terraform1
+terraform2
 terraform3
 
 documentation
