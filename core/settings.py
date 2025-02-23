@@ -28,7 +28,9 @@ DEBUG = int(os.getenv('DEBUG', default = 0))
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['http://' + os.getenv('INSTANCE_PUBLIC_IP', default = '127.0.0.1')]
+CSRF_TRUSTED_ORIGINS = ["*"]
+CSRF_COOKIE_SECURE = False
+CSRF_USE_SESSIONS = False
 
 # Application definition
 
@@ -47,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -165,7 +167,6 @@ if os.getenv('STORAGE_TYPE') == 's3':
     AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
     AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
     AWS_S3_FILE_OVERWRITE = False
-
 
     # Storage
     STORAGES = {
